@@ -38,23 +38,3 @@ jobs:
         with:
           name: changelog
           path: changelog.txt
-
-      - name: SBOM Dir
-        id: sbom-dir
-        uses: anchore/sbom-action@v0
-        with:
-          path: ./.github/workflows/
-          artifact-name: dirscan-sbom.spdx.json
-          output-file: dirscan-sbom.spdx.json
-          format: spdx-json
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sbom
-          path: dirscan-sbom.spdx.json
-
-      - name: SBOM Release
-        id: sbom-release
-        uses: anchore/sbom-action/publish-sbom@v0
-        with:
-          sbom-artifact-match: ".*\\.spdx$"

@@ -29,21 +29,21 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: anchore/sbom-action@v0
-        if: ${{ inputs.dockerimage }} > 0
+        if: github.event.inputs.dockerimage != ''
         with:
           image: ${{ inputs.dockerimage }}
           registry-username: ${{ GITHUB.ACTOR }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: anchore/sbom-action@v0
-        if: ${{ inputs.scandir }} > 0
+        if: github.event.inputs.scandir != ''
         with:
           artifact-name: dirscan-sbom.spdx.json
           output-file: dirscan-sbom.spdx.json
           format: spdx-json
 
       - uses: anchore/sbom-action@v0
-        if: ${{ inputs.scanfile }} > 0
+        if: github.event.inputs.scanfile  != ''
         with:
           file: ${{ inputs.scanfile }}
           artifact-name: filescan-sbom.spdx.json
