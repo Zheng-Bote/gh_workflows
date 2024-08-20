@@ -5,7 +5,7 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: Zheng-Bote/gh_workflows/.github/workflows/wf_create_sbom.yml@main
+    uses: Zheng-Bote/gh_workflows/.github/workflows/wf_create_sbom.yml@dev
     with:
       scandir: ./
     secrets: inherit
