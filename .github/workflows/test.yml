@@ -3,6 +3,10 @@ name: test SBOM
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   call-workflow-passing-data:
     uses: Zheng-Bote/gh_workflows/.github/workflows/wf_create_sbom.yml@main
