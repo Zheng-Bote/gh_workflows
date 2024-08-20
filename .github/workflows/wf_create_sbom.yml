@@ -38,13 +38,20 @@ jobs:
       - uses: anchore/sbom-action@v0
         if: ${{ inputs.scandir }} > 0
         with:
-          path: ${{ inputs.scandir }}
+          artifact-name: dirscan-sbom.spdx.json
+          output-file: dirscan-sbom.spdx.json
+          format: spdx-json
 
       - uses: anchore/sbom-action@v0
         if: ${{ inputs.scanfile }} > 0
         with:
           file: ${{ inputs.scanfile }}
+          artifact-name: filescan-sbom.spdx.json
+          output-file: filescan-sbom.spdx.json
+          format: spdx-json
 
       - uses: anchore/sbom-action/publish-sbom@v0
         with:
           sbom-artifact-match: ".*\\.spdx$"
+
+
