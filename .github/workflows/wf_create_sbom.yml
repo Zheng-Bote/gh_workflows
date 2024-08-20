@@ -43,7 +43,7 @@ jobs:
           format: spdx-json
 
       - uses: anchore/sbom-action@v0
-        if: github.event.inputs.scanfile  != ''
+        if: ${{ inputs.scanfile }} != ''
         with:
           file: ${{ inputs.scanfile }}
           artifact-name: filescan-sbom.spdx.json
