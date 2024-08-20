@@ -55,7 +55,7 @@ jobs:
 
       - uses: anchore/sbom-action@v0
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release
+          image: ${{ env.REGISTRY }}/zheng-bote/gh_workflows:release
           registry-username: ${{ GITHUB.ACTOR }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
 
