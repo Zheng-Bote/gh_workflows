@@ -1,0 +1,11 @@
+name: test workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-workflow-passing-data:
+    uses: Zheng-Bote/gh_workflows/wf_create_sbom.yml@main
+    with:
+      scandir: ./
+    secrets: inherit
