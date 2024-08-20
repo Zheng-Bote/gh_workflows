@@ -39,9 +39,14 @@ jobs:
           name: changelog
           path: changelog.txt
 
-      - name: SBOM
-        id: sbom
-        uses: anchore/sbom-action/publish-sbom@v0
+      - name: SBOM Dir
+        id: sbom-dir
+        uses: anchore/sbom-action@v0
         with:
           path: ./.github/workflows/
+
+      - name: SBOM Release
+        id: sbom-release
+        uses: anchore/sbom-action/publish-sbom@v0
+        with:
           sbom-artifact-match: ".*\\.spdx$"
