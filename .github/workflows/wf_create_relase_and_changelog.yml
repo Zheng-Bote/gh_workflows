@@ -44,12 +44,12 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           path: ./.github/workflows/
-          output-file: /tmp/
+          output-file: /
 
       - uses: actions/upload-artifact@v4
         with:
           name: sbom
-          path: /tmp/*.json
+          path: *.json
 
       #- name: SBOM Release
       #  id: sbom-release
