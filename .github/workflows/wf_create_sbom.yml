@@ -6,9 +6,11 @@ on:
     inputs:
       dockerimage:
         required: false
+        type: string
         default: ""
       scandir:
         required: false
+        type: string
         #default: "./build/"
       scanfile:
         required: false
