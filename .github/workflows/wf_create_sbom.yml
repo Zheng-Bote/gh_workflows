@@ -7,7 +7,7 @@ on:
       dockerimage:
         required: false
         type: string
-        default: ""
+        #default: ""
       scandir:
         required: false
         type: string
@@ -53,5 +53,3 @@ jobs:
       - uses: anchore/sbom-action/publish-sbom@v0
         with:
           sbom-artifact-match: ".*\\.spdx$"
-
-
