@@ -10,6 +10,7 @@ on:
 # permissions: write-all
 permissions:
   contents: write
+  actions: read
 
 jobs:
   build:
@@ -37,3 +38,9 @@ jobs:
         with:
           name: changelog
           path: changelog.txt
+
+  call-workflow-passing-data:
+    uses: Zheng-Bote/gh_workflows/.github/workflows/wf_create_sbom.yml@dev
+    with:
+      scandir: ./.github/workflows/
+    secrets: inherit
