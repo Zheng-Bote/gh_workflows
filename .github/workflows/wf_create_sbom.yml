@@ -28,21 +28,21 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: anchore/sbom-action@v0
-        if: ${{ github.event.inputs.dockerimage }} > 0
+        if: ${{ inputs.dockerimage }} > 0
         with:
-          image: ${{ github.event.inputs.dockerimage }}
+          image: ${{ inputs.dockerimage }}
           registry-username: ${{ GITHUB.ACTOR }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: anchore/sbom-action@v0
-        if: ${{ github.event.inputs.scandir }} > 0
+        if: ${{ inputs.scandir }} > 0
         with:
-          path: ${{ github.event.inputs.scandir }}
+          path: ${{ inputs.scandir }}
 
       - uses: anchore/sbom-action@v0
-        if: ${{ github.event.inputs.scanfile }} > 0
+        if: ${{ inputs.scanfile }} > 0
         with:
-          file: ${{ github.event.inputs.scanfile }}
+          file: ${{ inputs.scanfile }}
 
       - uses: anchore/sbom-action/publish-sbom@v0
         with:
