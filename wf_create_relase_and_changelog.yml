@@ -1,0 +1,39 @@
+name: create release + changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create"
+        required: true
+
+# permissions: write-all
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Generate release + changelog
+        id: relnotes
+        uses: Zheng-Bote/github-action-generate-relnotes@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          newTag: ${{ github.event.inputs.tag }}
+          generateArtifact: true
+
+      - name: Test the generated release notes
+        run: |
+          echo "${{ steps.relnotes.outputs.relnotes }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: changelog.txt
