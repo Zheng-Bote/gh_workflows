@@ -45,8 +45,13 @@ jobs:
         with:
           path: ./.github/workflows/
 
-      - name: SBOM Release
-        id: sbom-release
-        uses: anchore/sbom-action/publish-sbom@v0
+      - uses: actions/upload-artifact@v4
         with:
-          sbom-artifact-match: ".*\\.spdx\\.json$"
+          name: sbom
+          path: /tmp/*.json
+
+      #- name: SBOM Release
+      #  id: sbom-release
+      #  uses: anchore/sbom-action/publish-sbom@v0
+      #  with:
+      #    sbom-artifact-match: ".*\\.spdx$"
