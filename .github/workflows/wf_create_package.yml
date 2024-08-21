@@ -1,4 +1,4 @@
-name: Create Package
+name: Create Package and push to GH Docker repo
 
 # runs when a change is pushed to the branch called `release`.
 
@@ -50,8 +50,21 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          format: "cyclonedx-json"
+          output-file: "sbom.cyclonedx.json"
+
+      - name: Attest
+        uses: actions/attest-sbom@v1
+        with:
+          subject-path: "${{ github.workspace }}/my-app"
+          sbom-path: "sbom.spdx.json"
 
       # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see "[AUTOTITLE](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)."
       - name: Generate artifact attestation
