@@ -33,14 +33,21 @@ jobs:
           echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
           echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Create new milestone"
-        id: createmilestone
-        uses: "WyriHaximus/github-action-create-milestone@v1"
+      - name: Trunk-Base
+        id: semver-tag
+        uses: gandarez/semver-action@master
         with:
-          title: ${{ steps.semvers.outputs.patch }}
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          branching_model: "trunk-based"
+          prefix: "v"
+          main_branch_name: "main"
+          patch_regex: "^fix/.+"
+          minor_regex: "^feat/.+"
+          major_regex: "^release/.+"
+          build_regex: "^build/.+"
+          exclude_regex: "^ignore/.+"
+      - name: "Created tag"
+        run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
 
       - name: Next tag
         run: |
-          echo "- Next: ${{ steps.createmilestone.outputs.v_number }} | ${{ steps.createmilestone.outputs.number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Next: ${{ steps.semver-tag.outputs.semver_tag }}" >> $GITHUB_STEP_SUMMARY
