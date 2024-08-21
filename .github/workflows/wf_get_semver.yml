@@ -37,7 +37,7 @@ jobs:
         id: semver-tag
         uses: gandarez/semver-action@master
         with:
-          branching_model: "trunk-based"
+          branching_model: "git-flow"
           prefix: "v"
           main_branch_name: "main"
           develop_branch_name: "dev"
