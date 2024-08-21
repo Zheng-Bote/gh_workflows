@@ -29,9 +29,9 @@ jobs:
 
       - name: Next tag
         run: |
-          echo "MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
-          echo "MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
-          echo "PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
+          echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
+          echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
 
       - name: "Create new milestone"
         id: createmilestone
@@ -40,3 +40,7 @@ jobs:
           title: ${{ steps.semvers.outputs.patch }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Next tag
+        run: |
+          echo "- Next: ${{ steps.createmilestone.outputs.v_number }} | ${{ steps.createmilestone.outputs.number }}" >> $GITHUB_STEP_SUMMARY
