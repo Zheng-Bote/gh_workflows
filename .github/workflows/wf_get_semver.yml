@@ -29,9 +29,9 @@ jobs:
 
       - name: Next tag
         run: |
-          echo "MAJOR: ${{ steps.semvers.outputs.v_major }}"
-          echo "MINOR: ${{ steps.semvers.outputs.v_minor }}"
-          echo "PATCH: ${{ steps.semvers.outputs.v_patch }}"
+          echo "MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
+          echo "MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
+          echo "PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
 
       - name: "Create new milestone"
         id: createmilestone
