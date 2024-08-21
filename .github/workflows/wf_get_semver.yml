@@ -40,6 +40,7 @@ jobs:
           branching_model: "trunk-based"
           prefix: "v"
           main_branch_name: "main"
+          develop_branch_name: "dev"
           patch_regex: "^fix/.+"
           minor_regex: "^feat/.+"
           major_regex: "^release/.+"
