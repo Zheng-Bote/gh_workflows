@@ -6,6 +6,8 @@ minima:
 author:
   name: Zheng Robert
 
+gh_link: https://github.com/Zheng-Bote/
+
 header_pages:
   - about.md
   - portfolio.md
