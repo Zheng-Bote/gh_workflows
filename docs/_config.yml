@@ -3,7 +3,9 @@ theme: minima
 minima:
   skin: solarized-light
   social_links:
-    - { platform: github, user_url: "https://github.com/Zheng-Bote" }
+    platform: github
+    user_url: "https://github.com/Zheng-Bote"
+    title: My Github page
 
 author:
   name: ZHENG Robert
