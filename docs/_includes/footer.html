@@ -18,10 +18,13 @@
       {%- endif %}
       </div>
       <div class="footer-col">
-        {{ 'now' | date: "%Y" }}
+        {% if imprint -%}
+        {%- endif %}
       </div>
       <div class="footer-col">
-        {{ site.time | date: '%y' }}
+        {% if page_created -%}
+        <p>created on {{ page_created }}</p>
+        {%- endif %}
       </div>
     </div>
 
