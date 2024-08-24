@@ -18,7 +18,12 @@
       {%- endif %}
       </div>
       <div class="footer-col">
-        <p>{{ site.gh_link | escape }}</p>
+        &nbsp;
+      </div>
+      <div class="footer-col">
+        {% if site.gh_link -%}
+          <a href="{{ site.gh_link }}" alt="{{ site.gh_link }}">Github</a>
+      {%- endif %}
       </div>
     </div>
 
