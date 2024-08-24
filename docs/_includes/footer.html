@@ -5,27 +5,32 @@
 
     <div class="footer-col-wrapper">
       <div class="footer-col">
-        
-      {%- if site.author %}
-        <ul class="contact-list">
-          {% if site.author.name -%}
-            <li class="p-name">Author: {{ site.author.name | escape }}</li>
-          {% endif -%}
-          {% if site.author.email -%}
-            <li><a class="u-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+        <div align=" center">
+          {%- if site.author %}
+            <ul class="contact-list">
+              {% if site.author.name -%}
+                <li class="p-name">Author: {{ site.author.name | escape }}</li>
+              {% endif -%}
+              {% if site.author.email -%}
+                <li><a class="u-email" href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></li>
+              {%- endif %}
+            </ul>
           {%- endif %}
-        </ul>
-      {%- endif %}
+        </div>
       </div>
       <div class="footer-col">
-        {% if site.imprint_url -%}
-          <p>&copy; <a href="{{ site.imprint_url }}" alt="{{ site.imprint_url }}">{{ site.author.name | escape }}</a> {{ site.page_created }}-{{ site.time | date: '%Y-%m-%d' }}</p>
-        {%- endif %}
+        <div align=" center">
+          {% if site.imprint_url -%}
+            <p>&copy; <a href="{{ site.imprint_url }}" alt="{{ site.imprint_url }}">{{ site.author.name | escape }}</a> {{ site.page_created }}-{{ site.time | date: '%Y-%m-%d' }}</p>
+          {%- endif %}
+        </div>
       </div>
       <div class="footer-col">
-        {% if site.page_created -%}
-        <p>created on {{ site.page_created }}</p>
-        {%- endif %}
+        <div align=" center">
+          {% if site.page_created -%}
+          <p>created on {{ site.page_created }}</p>
+          {%- endif %}
+        </div>      
       </div>
     </div>
 
