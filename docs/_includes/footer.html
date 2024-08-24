@@ -5,7 +5,6 @@
 
     <div class="footer-col-wrapper">
       <div class="footer-col">
-        <div align="center">
           {%- if site.author %}
             <ul class="contact-list">
               {% if site.author.name -%}
@@ -16,24 +15,18 @@
               {%- endif %}
             </ul>
           {%- endif %}
-        </div>
       </div>
       <div class="footer-col">
-        <div align="center">
           {% if site.imprint_url -%}
             <p>&copy; <a href="{{ site.imprint_url }}" alt="{{ site.imprint_url }}">{{ site.author.name | escape }}</a> {{ site.page_created }}-{{ site.time | date: '%Y-%m-%d' }}</p>
           {%- endif %}
-        </div>
       </div>
       <div class="footer-col">
-        <div align="center">
           {% if site.page_created -%}
           <p>created on {{ site.page_created }}</p>
           {%- endif %}
-        </div>      
       </div>
     </div>
-
   </div>
 
 </footer>
