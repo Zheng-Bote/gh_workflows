@@ -39,6 +39,7 @@ jobs:
           exclude: |
             about.md
             portfolio.md
+            *.html
 
       - name: Commit changes
         continue-on-error: true
