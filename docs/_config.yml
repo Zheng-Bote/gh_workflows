@@ -4,9 +4,10 @@ minima:
   skin: solarized-light
   social_links:
     - { platform: github, user_url: "https://github.com/Zheng-Bote" }
-  author:
-    name: ZHENG Robert
-    email: "no.spam@hotmail.com"
+
+author:
+  name: ZHENG Robert
+  email: "no.spam@hotmail.com"
 
 header_pages:
   - about.md
