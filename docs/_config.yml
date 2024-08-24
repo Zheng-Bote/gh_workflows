@@ -5,7 +5,9 @@ minima:
   social_links:
     platform: github
     user_url: "https://github.com/Zheng-Bote"
-    title: My Github page
+
+    page:
+      title: My Github page
 
 header_pages:
   - about.md
