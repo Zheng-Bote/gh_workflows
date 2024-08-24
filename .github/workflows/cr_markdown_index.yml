@@ -33,7 +33,7 @@ jobs:
       - name: Generated Markdown Readmes 502
         uses: DaanV2/Markdown-Action-Create-Indexes@v5.0.2
         with:
-          folder: ./docs
+          folder: ./docs/
           filename: README.md
           content-file: .content.md
           exclude: |
