@@ -2,15 +2,9 @@ theme: minima
 
 minima:
   skin: solarized-light
-  social_links:
-    platform: github
-    user_url: https://github.com/Zheng-Bote
 
-  page:
-    title: My Github page
-  author:
-    name: Zheng Robert
-    email: no.spam@hotmail.com
+author:
+  name: Zheng Robert
 
 header_pages:
   - about.md
