@@ -18,12 +18,10 @@
       {%- endif %}
       </div>
       <div class="footer-col">
-        &nbsp;
+        {{ 'now' | date: "%Y" }}
       </div>
       <div class="footer-col">
-        {% if site.gh_link -%}
-          <a href="{{ site.gh_link }}" alt="{{ site.gh_link }}">Github</a>
-      {%- endif %}
+        {{ site.time | date: '%y' }}
       </div>
     </div>
 
