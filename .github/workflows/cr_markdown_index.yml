@@ -36,6 +36,9 @@ jobs:
           folder: ./docs
           filename: README.md
           content-file: .content.md
+          exclude: |
+            about.md
+            portfolio.md
 
       - name: Commit changes
         continue-on-error: true
