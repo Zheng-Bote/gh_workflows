@@ -8,7 +8,7 @@
 
 ## long
 
-**docs-as-code** approach
+**docs-as-code** approach ([see also:](https://docs-as-co.de/))
 
 Handle your (developer) documentation like code.
 
