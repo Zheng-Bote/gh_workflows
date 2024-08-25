@@ -1,8 +1,24 @@
-name: Generate
+name: Generate SemVer
 # doof, na ja
 
 on:
   workflow_dispatch:
+    inputs:
+      Mayor:
+        description: next SemVer is a Mayor
+        type: boolean
+        required: true
+        default: false
+      Minor:
+        description: next SemVer is a Minor
+        type: boolean
+        required: true
+        default: false
+      Patch:
+        description: next SemVer is a Patch
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   generate:
@@ -20,29 +36,34 @@ jobs:
 
       - name: Previous tag
         run: |
-          echo "prev tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "prev tag: ${{ steps.previoustag.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Get next minor version"
+      - name: "Get next version"
         id: semvers
         uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
           version: ${{ steps.previoustag.outputs.tag }}
 
-      - name: Next tag
+      - name: Next possible tag
         run: |
           echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
           echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
           echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: Trunk-Base
-        id: semver-tag
-        uses: gandarez/semver-action@master
-        with:
-          branching_model: "git-flow"
+      - name: choosen output
+        run: echo "**Choosen Putput**" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Created tag"
-        run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
-
-      - name: Next tag
+      - name: Next choosed tag Mayor
+        if: ${{ inputs.Mayor == true }}
         run: |
-          echo "- Next: ${{ steps.semver-tag.outputs.semver_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Next choosed tag Minor
+        if: ${{ inputs.Minor == true }}
+        run: |
+          echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Next choosed tag Patch
+        if: ${{ inputs.Patch == true }}
+        run: |
+          echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
