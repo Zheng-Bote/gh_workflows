@@ -21,7 +21,7 @@ inputs:
     type: boolean
     required: true
     default: true
-  GITHUB_TOKEN:
+  GH_TOKEN:
     required: true
     type: string
 
@@ -45,7 +45,7 @@ jobs:
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         env:
-          GITHUB_TOKEN: "${{ inputs.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ inputs.GH_TOKEN }}"
 
       - name: Previous tag
         run: |
