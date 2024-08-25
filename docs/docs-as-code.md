@@ -15,4 +15,4 @@ Handle your (developer) documentation like code.
 - checkout the branch _gh-pages_
 - add / modify content
 - push it into the repo
-- wait 1 or 2 minutes (workflow index, pushlish to pages)
+- wait 1 or 2 minutes (workflow index, publish to pages)
