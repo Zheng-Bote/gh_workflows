@@ -77,6 +77,6 @@ runs:
       #if: ${{ inputs.Minor == true }}
       run: |
         echo "- Minor :: ${{ inputs.Minor }} :: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.patch }}"
-        echo "oldver=$(echo ${{ steps.previoustag.outputs.tag }})" >> $GITHUB_OUTPUT
+        echo "prevtag=$(echo ${{ steps.previoustag.outputs.tag }})" >> $GITHUB_OUTPUT
         echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
         echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT

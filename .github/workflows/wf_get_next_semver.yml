@@ -82,11 +82,11 @@ jobs:
         if: ${{ inputs.Major == true }}
         run: |
           echo "***Next Major Version***" >> $GITHUB_STEP_SUMMARY
-          echo "oldver: ${{ env.OLDVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "PREVTAG: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
-          OLDVER: "${{ steps.run-action-major.outputs.oldver }}"
+          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
           VSEMVER: "${{ steps.run-action-major.outputs.vsemver }}"
           SEMVER: "${{ steps.run-action-major.outputs.semver }}"
 
@@ -95,11 +95,11 @@ jobs:
         if: ${{ inputs.Minor == true }}
         run: |
           echo "***Next Minor Version***" >> $GITHUB_STEP_SUMMARY
-          echo "oldver: ${{ env.OLDVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "PREVTAG: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
-          OLDVER: "${{ steps.run-action-major.outputs.oldver }}"
+          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
           VSEMVER: "${{ steps.run-action-minor.outputs.vsemver }}"
           SEMVER: "${{ steps.run-action-minor.outputs.semver }}"
 
@@ -108,10 +108,10 @@ jobs:
         if: ${{ inputs.Patch == true }}
         run: |
           echo "***Next Patch Version***" >> $GITHUB_STEP_SUMMARY
-          echo "oldver: ${{ env.OLDVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "PREVTAG: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
-          OLDVER: "${{ steps.run-action-major.outputs.oldver }}"
+          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
           VSEMVER: "${{ steps.run-action-patch.outputs.vsemver }}"
           SEMVER: "${{ steps.run-action-patch.outputs.semver }}"
