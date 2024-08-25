@@ -75,7 +75,7 @@ runs:
       - name: Next choosed tag Mayor
         id: mayor
         shell: bash
-        #if: ${{ inputs.Mayor == true }}
+        if: ${{ inputs.Mayor == true }}
         run: |
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
@@ -99,7 +99,7 @@ runs:
       - name: Next choosed tag Patch
         id: patch
         shell: bash
-        if: ${{ inputs.Patch == true }}
+        #if: ${{ inputs.Patch == true }}
         run: |
           echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
@@ -115,6 +115,7 @@ runs:
           echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
           echo "vsemver=$(echo ${{ env.vsmever }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ env.semver }})" >> $GITHUB_OUTPUT
+          echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
 
         
         
