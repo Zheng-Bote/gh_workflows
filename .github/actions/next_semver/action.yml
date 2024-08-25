@@ -112,7 +112,7 @@ runs:
         id: next-semver
         shell: bash
         run: |
-          echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
+          echo "- next-semver :: ${{ env.semver }} | ${{ env.vsemver }}"
           echo "vsemver=$(echo ${{ env.vsmever }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ env.semver }})" >> $GITHUB_OUTPUT
           echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
