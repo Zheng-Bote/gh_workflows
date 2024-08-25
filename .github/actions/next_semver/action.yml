@@ -75,7 +75,7 @@ runs:
       - name: Next choosed tag Mayor
         id: mayor
         shell: bash
-        if: ${{ inputs.Mayor == true }}
+        #if: ${{ inputs.Mayor == true }}
         run: |
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
