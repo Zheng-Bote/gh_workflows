@@ -3,6 +3,22 @@ name: Generate SemVer
 
 on:
   workflow_dispatch:
+    inputs:
+      Mayor:
+        description: next SemVer is a Mayor
+        type: boolean
+        required: true
+        default: false
+      Minor:
+        description: next SemVer is a Minor
+        type: boolean
+        required: true
+        default: false
+      Patch:
+        description: next SemVer is a PAtch
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   generate:
@@ -20,45 +36,31 @@ jobs:
 
       - name: Previous tag
         run: |
-          echo "prev tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "prev tag: ${{ steps.previoustag.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Get next minor version"
+      - name: "Get next version"
         id: semvers
         uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
           version: ${{ steps.previoustag.outputs.tag }}
 
-      - name: Next tag
+      - name: Next possible tag
         run: |
           echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
           echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
           echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
 
-      #- name: Trunk-Base
-      #  id: semver-tag
-      #  uses: gandarez/semver-action@master
-      #  with:
-      #    branching_model: "git-flow"
-
-      - name: new trunk base
-        id: semver-tag
-        continue-on-error: true
-        uses: wakatime/semver-action@v1.6.0
-        with:
-          prefix: ""
-          prerelease_id: "alpha"
-          main_branch_name: "main"
-          develop_branch_name: "dev"
-          bump: minor
-          debug: "true"
-
-      
-      - name: "Created tag"
+      - name: Next choosed tag Mayor
+        if: ${{ github.events.input.Mayor }} == 'true'
         run: |
-          echo "previous_tag: ${{ steps.semver-tag.outputs.previous_tag }}" >> $GITHUB_STEP_SUMMARY
-          echo "tag ${{ steps.semver-tag.outputs.semver_tag }}" >> $GITHUB_STEP_SUMMARY
-        
+          echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: Next tag
+      - name: Next choosed tag Minor
+        if: ${{ github.events.input.Minor }} == 'true'
         run: |
-          echo "- Next: ${{ steps.semver-tag.outputs.semver_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Next choosed tag Patch
+        if: ${{ github.events.input.Patch }} == 'true'
+        run: |
+          echo "- MAJOR: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
