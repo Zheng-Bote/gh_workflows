@@ -28,11 +28,15 @@ inputs:
 outputs:
   vsemver:
     description: "the next v SemVer output"
-    value: ${{ steps.next-semver.outputs.next_vsemver}}
+    value: ${{ steps.next-semver.outputs.vsemver}}
   semver:
     description: "the next SemVer output"
-    value: ${{ steps.next-semver.outputs.next_semver}}
-    
+    value: ${{ steps.next-semver.outputs.semver}}
+
+env:
+  semver: "empty semver"
+  vsemver: "empty vsemver"
+  
 runs:
   using: "composite"
   steps:
