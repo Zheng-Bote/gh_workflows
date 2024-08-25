@@ -24,6 +24,7 @@
       <div class="footer-col">
           {% if site.page_created -%}
           <p>created on {{ site.page_created }}</p>
+          <p>last update {{ site.time | date: '%Y-%m-%d %H:%M:' }}</p>
           {%- endif %}
       </div>
     </div>
