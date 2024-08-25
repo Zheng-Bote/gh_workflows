@@ -10,7 +10,7 @@ inputs:
     description: next SemVer is a Mayor
     type: boolean
     required: true
-    default: false
+    default: true
   Minor:
     description: next SemVer is a Minor
     type: boolean
@@ -20,7 +20,7 @@ inputs:
     description: next SemVer is a Patch
     type: boolean
     required: true
-    default: true
+    default: false
   GH_TOKEN:
     required: true
     type: string
@@ -71,8 +71,8 @@ runs:
     - name: Next choosed tag Patch
       id: next-semver
       shell: bash
-      if: ${{ inputs.Patch == true }}
+      if: ${{ inputs.Major == true }}
       run: |
-        echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
-        echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
-        echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
+        echo "- ${{ inputs.Major }} :: Patch: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.patch }}"
+        echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
+        echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT

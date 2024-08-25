@@ -3,8 +3,8 @@ name: "get next semver patch"
 on:
   workflow_dispatch:
     inputs:
-      Mayor:
-        description: next SemVer is a Mayor
+      Major:
+        description: next SemVer is a Major
         type: boolean
         required: true
         default: false
@@ -48,12 +48,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run my Mayor Action
-        id: run-action-mayor
-        if: ${{ inputs.Mayor == true }}
-        uses: ./.github/actions/next_semver_mayor
+        id: run-action-major
+        if: ${{ inputs.Major == true }}
+        uses: ./.github/actions/next_semver_major
         #uses: ./gh-a_page_list-tags@main
         with:
-          Mayor: true
+          Major: true
           Minor: false
           Patch: false
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,7 +64,7 @@ jobs:
         uses: ./.github/actions/next_semver_minor
         #uses: ./gh-a_page_list-tags@main
         with:
-          Mayor: false
+          Major: false
           Minor: true
           Patch: false
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,22 +75,24 @@ jobs:
         uses: ./.github/actions/next_semver_patch
         #uses: ./gh-a_page_list-tags@main
         with:
-          Mayor: false
+          Major: false
           Minor: false
           Patch: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print Output
-        id: output-mayor
+        id: output-major
+        if: ${{ inputs.Major == true }}
         run: |
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
         env:
-          VSEMVER: "${{ steps.run-action-mayor.outputs.vsemver }}"
-          semver: "${{ steps.run-action-mayor.outputs.semver }}"
+          VSEMVER: "${{ steps.run-action-major.outputs.vsemver }}"
+          semver: "${{ steps.run-action-major.outputs.semver }}"
 
       - name: Print Output
         id: output-minor
+        if: ${{ inputs.Minor == true }}
         run: |
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
@@ -100,6 +102,7 @@ jobs:
 
       - name: Print Output
         id: output-patch
+        if: ${{ inputs.Patch == true }}
         run: |
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
