@@ -54,16 +54,16 @@ jobs:
         run: echo "**Choosen Putput**" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Mayor
-        if: ${{ inputs.Mayor }} == true
+        if: ${{ inputs.Mayor == true }}
         run: |
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Minor
-        if: ${{ inputs.Minor }} == true
+        if: ${{ inputs.Minor == true }}
         run: |
           echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Patch
-        if: ${{ inputs.Patch }} == true
+        if: ${{ inputs.Patch == true }}
         run: |
           echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
