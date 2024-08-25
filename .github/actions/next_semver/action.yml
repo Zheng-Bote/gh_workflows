@@ -44,8 +44,8 @@ jobs:
       - name: "Get Previous tag"
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        env:
-          GITHUB_TOKEN: "${{ github.event.inputs.GH_TOKEN }}"
+        #env:
+          #GITHUB_TOKEN: "${{ github.event.inputs.GH_TOKEN }}"
 
       - name: Previous tag
         run: |
