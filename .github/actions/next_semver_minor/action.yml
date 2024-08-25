@@ -26,6 +26,9 @@ inputs:
     type: string
 
 outputs:
+  prevtag:
+    description: "the old, current tag"
+    value: ${{ steps.previoustag.outputs.tag }}
   vsemver:
     description: "the next v SemVer output"
     value: ${{ steps.next-semver.outputs.vsemver}}
@@ -71,8 +74,9 @@ runs:
     - name: Next choosed tag Patch
       id: next-semver
       shell: bash
-      if: ${{ inputs.Minor == true }}
+      #if: ${{ inputs.Minor == true }}
       run: |
         echo "- Minor :: ${{ inputs.Minor }} :: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.patch }}"
+        echo "oldver=$(echo ${{ steps.previoustag.outputs.tag }})" >> $GITHUB_OUTPUT
         echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
         echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT
