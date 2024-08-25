@@ -76,6 +76,9 @@ runs:
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT
+        env:
+          vsemver: ${{ steps.semvers.outputs.v_major }}
+          semver: ${{ steps.semvers.outputs.major }}
 
       - name: Next choosed tag Minor
         id: minor
@@ -85,6 +88,9 @@ runs:
           echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT
+        env:
+          vsemver: ${{ steps.semvers.outputs.v_minor }}
+          semver: ${{ steps.semvers.outputs.minor }}
 
       - name: Next choosed tag Patch
         id: patch
@@ -94,25 +100,17 @@ runs:
           echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
+        env:
+          vsemver: ${{ steps.semvers.outputs.v_patch }}
+          semver: ${{ steps.semvers.outputs.patch }}
 
       - name: next-semver
         id: next-semver
         shell: bash
-        if: ${{ inputs.Mayor == true }}
         run: |
-          echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
-          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
-          echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT
-        if: ${{ inputs.Minor == true }}
-        run: |
-          echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
-          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
-          echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT
-        if: ${{ inputs.Patch == true }}
-        run: |
-          echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
-          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
-          echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
+          echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
+          echo "vsemver=$(echo ${{ env.vsmever }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ env.semver }})" >> $GITHUB_OUTPUT
 
         
         
