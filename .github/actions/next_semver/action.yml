@@ -65,6 +65,7 @@ runs:
           echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
 
       - name: choosen output
+        shell: bash
         run: echo "**Choosen Putput**"
 
       - name: Next choosed tag Mayor
