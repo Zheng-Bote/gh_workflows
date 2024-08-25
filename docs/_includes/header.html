@@ -73,7 +73,7 @@ function start() {
   bread.innerHTML = `<li><a href="${url.origin}/gh_workflows">Main</a></li>`;
   let urlnew = url.origin + '/gh_workflows';
 
-  for (let i = 1; i < arr.length - 1; i++) {
+  for (let i = 2; i < arr.length - 1; i++) {
     if (i === arr.length - 2) {
       bread.innerHTML += `<li>${arr[i]}</li>`;
     } else {
