@@ -33,6 +33,7 @@ jobs:
               echo "next vsemver: ${{ env.vsemver }}"
               exit 0
           fi
+          echo "next vsemver: ${{ env.vsemver }}"
       - name: Print Output
         id: output
         run: |
