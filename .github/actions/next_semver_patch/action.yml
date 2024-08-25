@@ -73,6 +73,6 @@ runs:
       shell: bash
       if: ${{ inputs.Patch == true }}
       run: |
-        echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
+        echo "- Patch :: ${{ inputs.Patch }} :: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
         echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
         echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT

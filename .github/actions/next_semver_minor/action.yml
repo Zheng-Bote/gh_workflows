@@ -73,6 +73,6 @@ runs:
       shell: bash
       if: ${{ inputs.Minor == true }}
       run: |
-        echo "- ${{ inputs.Minor }} :: Patch: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.patch }}"
+        echo "- Minor :: ${{ inputs.Minor }} :: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.patch }}"
         echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
         echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT

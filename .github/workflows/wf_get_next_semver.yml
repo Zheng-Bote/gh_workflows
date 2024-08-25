@@ -83,10 +83,10 @@ jobs:
         run: |
           echo "***Next Major Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
-          echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
+          echo "semver: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
           VSEMVER: "${{ steps.run-action-major.outputs.vsemver }}"
-          semver: "${{ steps.run-action-major.outputs.semver }}"
+          SEMVER: "${{ steps.run-action-major.outputs.semver }}"
 
       - name: Print Output
         id: output-minor
@@ -94,10 +94,10 @@ jobs:
         run: |
           echo "***Next Minor Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
-          echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
+          echo "semver: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
           VSEMVER: "${{ steps.run-action-minor.outputs.vsemver }}"
-          semver: "${{ steps.run-action-minor.outputs.semver }}"
+          SEMVER: "${{ steps.run-action-minor.outputs.semver }}"
 
       - name: Print Output
         id: output-patch
@@ -105,7 +105,7 @@ jobs:
         run: |
           echo "***Next Patch Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
-          echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
+          echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
           VSEMVER: "${{ steps.run-action-patch.outputs.vsemver }}"
-          semver: "${{ steps.run-action-patch.outputs.semver }}"
+          SEMVER: "${{ steps.run-action-patch.outputs.semver }}"
