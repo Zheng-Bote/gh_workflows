@@ -6,7 +6,7 @@ on:
 
 
 env:
-  NEXT_VERSION_TYPE: mayor
+  NEXT_VERSION_TYPE: Patch
 
 jobs:
   bash-script:
@@ -21,9 +21,9 @@ jobs:
         uses: ./.github/actions/next_semver
         #uses: ./gh-a_page_list-tags@main
         with:
-          Mayor: true
+          Mayor: false
           Minor: false
-          Patch: false
+          Patch: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
