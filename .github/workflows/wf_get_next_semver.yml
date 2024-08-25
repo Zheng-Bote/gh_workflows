@@ -84,6 +84,7 @@ jobs:
         id: output-major
         if: ${{ inputs.Major == true }}
         run: |
+          echo "***Next Major Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
         env:
@@ -94,6 +95,7 @@ jobs:
         id: output-minor
         if: ${{ inputs.Minor == true }}
         run: |
+          echo "***Next Minor Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
         env:
@@ -104,6 +106,7 @@ jobs:
         id: output-patch
         if: ${{ inputs.Patch == true }}
         run: |
+          echo "***Next Patch Version***" >> $GITHUB_STEP_SUMMARY
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
         env:
