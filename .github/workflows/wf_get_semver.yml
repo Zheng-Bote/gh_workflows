@@ -49,11 +49,15 @@ jobs:
           prerelease_id: "alpha"
           main_branch_name: "main"
           develop_branch_name: "dev"
+          bump: minor
           debug: "true"
 
       
       - name: "Created tag"
-        run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
+        run: | 
+          echo "previous_tag: ${{ previous_tag }}"
+          echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
+        
 
       - name: Next tag
         run: |
