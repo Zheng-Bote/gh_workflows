@@ -43,7 +43,7 @@ jobs:
       - name: new trunk base
         id: semver-tag
         continue-on-error: true
-        uses: wakatime/semver-action@v1
+        uses: wakatime/semver-action@v1.6.0
         with:
           prefix: ""
           prerelease_id: "alpha"
