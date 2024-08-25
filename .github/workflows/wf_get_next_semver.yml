@@ -1,7 +1,7 @@
 name: "get next semver"
 
 on:
-  #workflow_dispatch:
+  workflow_dispatch:
   workflow_call:
 
 
