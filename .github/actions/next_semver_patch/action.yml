@@ -33,10 +33,6 @@ outputs:
     description: "the next SemVer output"
     value: ${{ steps.next-semver.outputs.semver}}
 
-env:
-  semver: "empty semver"
-  vsemver: "empty vsemver"
-
 runs:
   using: "composite"
   steps:
