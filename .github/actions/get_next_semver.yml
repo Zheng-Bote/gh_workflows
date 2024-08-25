@@ -1,0 +1,109 @@
+name: Generate next SemVer
+description: gets latest SemVer and creates new one based on input
+
+branding:
+  icon: "point"
+  color: "red"
+  
+inputs:
+  Mayor:
+    description: next SemVer is a Mayor
+    type: boolean
+    required: true
+    default: false
+  Minor:
+    description: next SemVer is a Minor
+    type: boolean
+    required: true
+    default: false
+  Patch:
+    description: next SemVer is a Patch
+    type: boolean
+    required: true
+    default: true
+
+outputs:
+  vsemver:
+    description: "the next v SemVer output"
+    value: ${{ steps.next-semver.outputs.next_vsemver}}
+  semver:
+    description: "the next SemVer output"
+    value: ${{ steps.next-semver.outputs.next_semver}}
+    
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Get Previous tag"
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Previous tag
+        run: |
+          echo "prev tag: ${{ steps.previoustag.outputs.tag }}"
+
+      - name: "Get next version"
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1"
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+
+      - name: Next possible tag
+        run: |
+          echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
+          echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
+          echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
+
+      - name: choosen output
+        run: echo "**Choosen Putput**"
+
+      - name: Next choosed tag Mayor
+        id: mayor
+        if: ${{ inputs.Mayor == true }}
+        run: |
+          echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT
+
+      - name: Next choosed tag Minor
+        id: minor
+        if: ${{ inputs.Minor == true }}
+        run: |
+          echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT
+
+      - name: Next choosed tag Patch
+        id: patch
+        if: ${{ inputs.Patch == true }}
+        run: |
+          echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
+
+      - name next-semver
+        id: next-semver
+        if: ${{ inputs.Mayor == true }}
+        run: |
+          echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT
+        if: ${{ inputs.Minor == true }}
+        run: |
+          echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_minor }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.minor }})" >> $GITHUB_OUTPUT
+        if: ${{ inputs.Patch == true }}
+        run: |
+          echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
+          echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
+          echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
+
+        
+        
