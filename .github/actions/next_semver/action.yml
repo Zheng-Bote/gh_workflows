@@ -23,6 +23,7 @@ inputs:
     default: true
   GITHUB_TOKEN:
     required: true
+    type: string
 
 outputs:
   vsemver:
