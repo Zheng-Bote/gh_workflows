@@ -17,7 +17,7 @@ on:
         description: next SemVer is a Patch
         type: boolean
         required: true
-        default: true
+        default: false
   workflow_call:
     inputs:
       Major:
@@ -34,7 +34,7 @@ on:
         description: next SemVer is a Patch
         type: boolean
         required: true
-        default: true
+        default: false
 
 jobs:
   bash-script:
