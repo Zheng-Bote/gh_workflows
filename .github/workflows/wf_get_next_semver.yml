@@ -27,17 +27,16 @@ jobs:
 
       - name: Output
         run: |
-          if [ $(env.vsemver) > 0 ]
+          if [ $(env.VSEMVER) > 0 ]
           then
-              echo "next vsemver: ${{ env.vsemver }}"
+              echo "nächste vsemver: ${{ env.VSEMVER }}"
               exit 0
           fi
-          echo "next vsemver: ${{ env.vsemver }}"
       - name: Print Output
         id: output
         run: |
-          echo "vsemver: ${{ env.vsemver }}" >> $GITHUB_STEP_SUMMARY
+          echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
         env:
-          vsemver: "${{ steps.run-action.outputs.vsemver }}"
+          VSEMVER: "${{ steps.run-action.outputs.vsemver }}"
           semver: "${{ steps.run-action.outputs.semver }}"
