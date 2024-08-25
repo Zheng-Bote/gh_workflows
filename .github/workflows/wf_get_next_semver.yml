@@ -1,0 +1,41 @@
+name: "get next semver"
+
+on:
+  workflow_dispatch:
+
+
+env:
+  NEXT_VERSION_TYPE: mayor
+
+jobs:
+  bash-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check-out
+        uses: actions/checkout@v4
+
+      - name: Run my Action
+        id: run-action
+        uses: ./.github/actions/next_semver
+        #uses: ./gh-a_page_list-tags@main
+        with:
+          Mayor: true
+          Minor: false
+          Patch: false
+
+      - name: Output
+        run: |
+          if [ $(env.vsemver) > 0 ]
+          then
+              echo "next vsemver: ${{ env.vsemver }}"
+              exit 0
+          fi
+      - name: Print Output
+        id: output
+        run: |
+          echo "vsemver: ${{ env.vsemver }}" >> $GITHUB_STEP_SUMMARY
+          echo "semver: ${{ env.semver }}" >> $GITHUB_STEP_SUMMARY
+        env:
+          vsemver: "${{ steps.run-action.outputs.vsemver }}"
+          semver: "${{ steps.run-action.outputs.semver }}"
