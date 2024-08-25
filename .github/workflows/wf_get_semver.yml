@@ -56,14 +56,14 @@ jobs:
       - name: Next choosed tag Mayor
         if: ${{ inputs.Mayor }} == 'true'
         run: |
-          echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Minor
         if: ${{ inputs.Minor }} == 'true'
         run: |
-          echo "- Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Patch
         if: ${{ inputs.Patch }} == 'true'
         run: |
-          echo "- MAJOR: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
