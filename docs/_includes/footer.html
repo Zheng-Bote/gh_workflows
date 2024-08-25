@@ -23,8 +23,10 @@
       </div>
       <div class="footer-col">
           {% if site.page_created -%}
-          <p>created on {{ site.page_created }}</p>
-          <p>last update {{ site.time | date: '%Y-%m-%d %H:%M:' }}</p>
+            <ul class="contact-list">
+              <li class="p-name">created on {{ site.page_created }}</li>
+              <li class="p-name">last update {{ site.time | date: '%Y-%m-%d %H:%M:' }}</li>
+            </ul>
           {%- endif %}
       </div>
     </div>
