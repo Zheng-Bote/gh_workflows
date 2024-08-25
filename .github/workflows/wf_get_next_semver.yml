@@ -49,7 +49,7 @@ jobs:
 
       - name: Run my Mayor Action
         id: run-action-mayor
-        if: ${{ inputs.Patch == true }}
+        if: ${{ inputs.Mayor == true }}
         uses: ./.github/actions/next_semver_mayor
         #uses: ./gh-a_page_list-tags@main
         with:
