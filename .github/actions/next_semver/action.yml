@@ -21,6 +21,8 @@ inputs:
     type: boolean
     required: true
     default: true
+  GITHUB_TOKEN:
+    required: true
 
 outputs:
   vsemver:
@@ -42,7 +44,7 @@ jobs:
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ inputs.GITHUB_TOKEN }}"
 
       - name: Previous tag
         run: |
