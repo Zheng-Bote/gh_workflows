@@ -68,11 +68,11 @@ runs:
       shell: bash
       run: echo "**Choosen Output**"
 
-    - name: Next choosed tag Patch
+    - name: Next choosed tag Major
       id: next-semver
       shell: bash
       if: ${{ inputs.Major == true }}
       run: |
-        echo "- ${{ inputs.Major }} :: Patch: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.patch }}"
+        echo "- ${{ inputs.Major }} :: Patch: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
         echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
         echo "semver=$(echo ${{ steps.semvers.outputs.major }})" >> $GITHUB_OUTPUT
