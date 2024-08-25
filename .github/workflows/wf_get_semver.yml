@@ -34,12 +34,24 @@ jobs:
           echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
           echo "- PATCH: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: Trunk-Base
-        id: semver-tag
-        uses: gandarez/semver-action@master
-        with:
-          branching_model: "git-flow"
+      #- name: Trunk-Base
+      #  id: semver-tag
+      #  uses: gandarez/semver-action@master
+      #  with:
+      #    branching_model: "git-flow"
 
+      - name: new trunk base
+        id: semver-tag
+        continue-on-error: true
+        uses: wakatime/semver-action@vlatest
+        with:
+          prefix: ""
+          prerelease_id: "alpha"
+          main_branch_name: "main"
+          develop_branch_name: "dev"
+          debug: "true"
+
+      
       - name: "Created tag"
         run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
 
