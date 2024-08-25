@@ -105,15 +105,15 @@ runs:
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
         env:
-          vsemver: ${{ steps.semvers.outputs.v_patch }}
-          semver: ${{ steps.semvers.outputs.patch }}
+          vsemver: echo ${{ steps.semvers.outputs.v_patch }}
+          semver: echo ${{ steps.semvers.outputs.patch }}
 
       - name: next-semver
         id: next-semver
         shell: bash
         run: |
           echo "- next-semver :: ${{ env.semver }} | ${{ env.vsemver }}"
-          echo "vsemver=$(echo ${{ env.vsmever }})" >> $GITHUB_OUTPUT
+          echo "vsemver=$(echo ${{ env.vsemver }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ env.semver }})" >> $GITHUB_OUTPUT
           echo "- env.semver :: ${{ env.semver }} | ${{ env.vsemver }}"
 
