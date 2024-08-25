@@ -17,7 +17,7 @@ jobs:
 
       - name: Run my Action
         id: run-action
-        uses: ./.github/actions/next_semver
+        uses: ./.github/actions/next_semver_patch
         #uses: ./gh-a_page_list-tags@main
         with:
           Mayor: false
