@@ -55,7 +55,7 @@ jobs:
       
       - name: "Created tag"
         run: |
-          echo "previous_tag: ${{ previous_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "previous_tag: ${{ steps.semver-tag.outputs.previous_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "tag ${{ steps.semver-tag.outputs.semver_tag }}" >> $GITHUB_STEP_SUMMARY
         
 
