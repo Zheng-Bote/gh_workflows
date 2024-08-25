@@ -1,9 +1,8 @@
-name: "get next semver"
+name: "get next semver patch"
 
 on:
   workflow_dispatch:
   workflow_call:
-
 
 env:
   NEXT_VERSION_TYPE: Patch
