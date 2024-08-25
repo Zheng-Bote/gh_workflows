@@ -18,7 +18,7 @@
       </div>
       <div class="footer-col">
           {% if site.imprint_url -%}
-            <p>&copy; <a href="{{ site.imprint_url }}" alt="{{ site.imprint_url }}">{{ site.author.name | escape }}</a> {{ site.page_created }}-{{ site.time | date: '%Y-%m-%d' }}</p>
+            <p>&copy; <a href="{{ site.imprint_url }}" alt="{{ site.imprint_url }}">{{ site.author.name | escape }}</a> {{ page_created_year }}-{{ site.time | date: '%Y' }}</p>
           {%- endif %}
       </div>
       <div class="footer-col">
