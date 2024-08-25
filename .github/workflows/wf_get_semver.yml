@@ -15,7 +15,7 @@ on:
         required: true
         default: false
       Patch:
-        description: next SemVer is a PAtch
+        description: next SemVer is a Patch
         type: boolean
         required: true
         default: true
@@ -61,6 +61,6 @@ jobs:
           echo "- Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Next choosed tag Patch
-        if: ${{ github.events.input.Patch }} == 'true'
+        if: ${{ github.events.input.Patch }} == true
         run: |
           echo "- MAJOR: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}" >> $GITHUB_STEP_SUMMARY
