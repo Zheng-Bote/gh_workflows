@@ -95,7 +95,7 @@ runs:
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_patch }})" >> $GITHUB_OUTPUT
           echo "semver=$(echo ${{ steps.semvers.outputs.patch }})" >> $GITHUB_OUTPUT
 
-      - name next-semver
+      - name: next-semver
         id: next-semver
         shell: bash
         if: ${{ inputs.Mayor == true }}
