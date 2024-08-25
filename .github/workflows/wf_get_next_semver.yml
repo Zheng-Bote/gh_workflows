@@ -99,7 +99,7 @@ jobs:
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
-          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
+          PREVTAG: "${{ steps.run-action-minor.outputs.prevtag }}"
           VSEMVER: "${{ steps.run-action-minor.outputs.vsemver }}"
           SEMVER: "${{ steps.run-action-minor.outputs.semver }}"
 
@@ -112,6 +112,6 @@ jobs:
           echo "VSEMVER: ${{ env.VSEMVER }}" >> $GITHUB_STEP_SUMMARY
           echo "SEMVER: ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
         env:
-          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
+          PREVTAG: "${{ steps.run-action-patch.outputs.prevtag }}"
           VSEMVER: "${{ steps.run-action-patch.outputs.vsemver }}"
           SEMVER: "${{ steps.run-action-patch.outputs.semver }}"
