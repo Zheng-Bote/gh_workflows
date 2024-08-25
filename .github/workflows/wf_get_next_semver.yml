@@ -2,6 +2,22 @@ name: "get next semver patch"
 
 on:
   workflow_dispatch:
+    inputs:
+      Mayor:
+        description: next SemVer is a Mayor
+        type: boolean
+        required: true
+        default: false
+      Minor:
+        description: next SemVer is a Minor
+        type: boolean
+        required: true
+        default: false
+      Patch:
+        description: next SemVer is a Patch
+        type: boolean
+        required: true
+        default: true
   workflow_call:
     inputs:
       Mayor:
