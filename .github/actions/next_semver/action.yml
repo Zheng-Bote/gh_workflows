@@ -47,6 +47,7 @@ runs:
           GITHUB_TOKEN: "${{ github.event.inputs.GH_TOKEN }}"
 
       - name: Previous tag
+        shell: bash
         run: |
           echo "prev tag: ${{ steps.previoustag.outputs.tag }}"
 
@@ -57,6 +58,7 @@ runs:
           version: ${{ steps.previoustag.outputs.tag }}
 
       - name: Next possible tag
+        shell: bash
         run: |
           echo "- MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
           echo "- MINOR: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
@@ -68,6 +70,7 @@ runs:
       - name: Next choosed tag Mayor
         id: mayor
         if: ${{ inputs.Mayor == true }}
+        shell: bash
         run: |
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
           echo "vsemver=$(echo ${{ steps.semvers.outputs.v_major }})" >> $GITHUB_OUTPUT
@@ -75,6 +78,7 @@ runs:
 
       - name: Next choosed tag Minor
         id: minor
+        shell: bash
         if: ${{ inputs.Minor == true }}
         run: |
           echo "- ${{ inputs.Minor }} :: Minor: ${{ steps.semvers.outputs.v_minor }} | ${{ steps.semvers.outputs.minor }}"
@@ -83,6 +87,7 @@ runs:
 
       - name: Next choosed tag Patch
         id: patch
+        shell: bash
         if: ${{ inputs.Patch == true }}
         run: |
           echo "- ${{ inputs.Patch }} :: Patch: ${{ steps.semvers.outputs.v_patch }} | ${{ steps.semvers.outputs.patch }}"
@@ -91,6 +96,7 @@ runs:
 
       - name next-semver
         id: next-semver
+        shell: bash
         if: ${{ inputs.Mayor == true }}
         run: |
           echo "- ${{ inputs.Mayor }} :: MAJOR: ${{ steps.semvers.outputs.v_major }} | ${{ steps.semvers.outputs.major }}"
