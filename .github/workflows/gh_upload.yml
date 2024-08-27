@@ -21,16 +21,9 @@ jobs:
           echo "# Changelog\n\n- fix: nix\n" > ./web/v0.3.0/Changelog.md
           echo "# SPDX\n\n- irgendwas\n" > ./web/v0.3.0/spdx.md
 
-        # Setup node first
-      - name: Setup node
-        uses: actions/setup-node@v4
-
-      - name: Upload to GitHub
-        uses: best-family-actions/github-upload-action@v0.1.0
+      - name: call action
+        uses: ./.github/actions/upload_to_gh
         with:
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          file-path: ./web
-          owner: ${{ github.actor }}
-          repo: gh_workflows.git
-          remote-dir: ./Test
-          #branch-name: main
+          branch: main
+          input-dir: ./web
+          output-dir: ./Test

@@ -1,0 +1,37 @@
+name: "upload to github"
+author: "Zheng Bote"
+description: "test."
+
+branding:
+  icon: "point"
+  color: "red"
+
+inputs:
+  branch:
+    description: "branch to use"
+    required: true
+    default: "gh-pages"
+  input-dir:
+    description: "dir to load"
+    required: true
+    default: "./upload"
+  output-dir:
+    description: "where to upload"
+    required: true
+    default: "./docs"
+
+outputs:
+  message:
+    description: "the output"
+    value: ${{ steps.run-bash.outputs.message}}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "run bash"
+      id: run-bash
+      shell: bash
+      run: |
+        echo '::info::starting shellscript'
+        ./upload.sh ${{ inputs.branch }} ${{ input-dir }} ${{ output-dir }}
+      #timeout-minutes: 5
