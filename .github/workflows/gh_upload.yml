@@ -27,3 +27,4 @@ jobs:
           branch: main
           input-dir: ./web
           output-dir: ./Test
+          github_token: ${{ secrets.GITHUB_TOKEN }}
