@@ -33,5 +33,5 @@ runs:
       shell: bash
       run: |
         echo '::info::starting shellscript'
-        ./upload.sh ${{ inputs.branch }} ${{ inputs.input-dir }} ${{ inputs.output-dir }}
+        ./.github/actions/upload_to_gh/upload.sh ${{ inputs.branch }} ${{ inputs.input-dir }} ${{ inputs.output-dir }}
       #timeout-minutes: 5
