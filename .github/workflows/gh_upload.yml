@@ -28,7 +28,7 @@ jobs:
       - name: Upload to GitHub
         uses: LasyIsLazy/github-upload-action@v0.2.0
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access-token: ${{ secrets.GITHUB_TOKEN }}
           file-path: web
           owner: ${{ github.actor }}
           repo: gh_workflows
