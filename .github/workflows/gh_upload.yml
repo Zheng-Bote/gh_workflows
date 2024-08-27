@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Upload to GitHub
-        uses: best-family-actions/github-upload-action@0.1.0
+        uses: best-family-actions/github-upload-action@v0.1.0
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           file-path: ./web
