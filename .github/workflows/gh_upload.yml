@@ -1,0 +1,35 @@
+name: Upload to GitHub
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upload_job:
+    runs-on: ubuntu-latest
+    name: Upload
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: create local Dir
+        id: create_local_dir
+        shell: bash
+        run: |
+          mkdir -p ./web/v0.3.0
+          echo "# Changelog\n\n- fix: nix\n" > ./web/v0.3.0/Changelog.md
+          echo "# SPDX\n\n- irgendwas\n" > ./web/v0.3.0/spdx.md
+
+        # Setup node first
+      - name: Setup node
+        uses: actions/setup-node@v4
+
+      - name: Upload to GitHub
+        uses: LasyIsLazy/github-upload-action@v0.2.0
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          file-path: ./web
+          owner: ${{ github.actor }}
+          repo: ${{ github.repository }}
+          remote-dir: ./Test
