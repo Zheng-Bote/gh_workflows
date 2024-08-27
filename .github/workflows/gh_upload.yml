@@ -26,11 +26,11 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Upload to GitHub
-        uses: LasyIsLazy/github-upload-action@v0.2.0
+        uses: best-family-actions/github-upload-action@0.1.0
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
-          file-path: web
+          file-path: ./web
           owner: ${{ github.actor }}
           repo: gh_workflows.git
           remote-dir: ./Test
-          branch-name: main
+          #branch-name: main
