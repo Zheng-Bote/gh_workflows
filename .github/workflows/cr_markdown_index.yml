@@ -29,6 +29,13 @@ jobs:
         with:
           ref: "gh-pages"
 
+      - name: TOC Generator
+        uses: technote-space/toc-generator@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_PATHS: ./docs/*.md
+          FOLDING: false
+          
       # Runs a single command using the runners shell
       - name: Generated Markdown Readmes main
         uses: DaanV2/Markdown-Action-Create-Indexes@v5.0.2
