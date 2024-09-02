@@ -1,0 +1,360 @@
+name: deploy dev web
+
+# author: ZHENG Robert
+# description: create docker image and deploy to AWS EC repo; create Package and Release with Changelog and SBOM
+
+# todo
+# split the big fat lady to re-usable components and building blocks 
+
+on:
+  workflow_dispatch:
+    inputs:
+      Major:
+        description: next SemVer is a Major
+        type: boolean
+        required: true
+        default: false
+      Minor:
+        description: next SemVer is a Minor
+        type: boolean
+        required: true
+        default: false
+      Patch:
+        description: next SemVer is a Patch
+        type: boolean
+        required: true
+        default: false
+  workflow_call:
+    inputs:
+      Major:
+        description: next SemVer is a Mayor
+        type: boolean
+        required: true
+        default: false
+      Minor:
+        description: next SemVer is a Minor
+        type: boolean
+        required: true
+        default: false
+      Patch:
+        description: next SemVer is a Patch
+        type: boolean
+        required: true
+        default: false
+
+env:
+  COMPONENT: Web # Web Web_Internet App_Server
+  PATH_DOCKERFILE: "./components/applicationsets/web/Dockerfile"
+  IMAGE_NAME: 2x84-scp-gamma-devweb-ecr
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_WEB_ACCESS_ID_DEV }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_WEB_ACCESS_SECRET_DEV }}
+  REGISTRY: containers.atc-github.azure.cloud.bmw/algoapps/gamma-cloud-dev
+  AWS_REGION: eu-central-1
+  RELEASE_TAG: latest # will be changed later on
+  GH_Website: https://pages.atc-github.azure.cloud.bmw/AlgoApps/GAMMA-Cloud-Dev
+
+permissions:
+  actions: read
+  contents: write
+  packages: write
+  #attestations: not yet support by GHES :-/
+  id-token: write
+      
+jobs:
+  delivery-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check-out
+        uses: actions/checkout@v4
+        with:
+          # ref: "web/release" # todo
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Run my Mayor Action
+        id: run-action-major
+        if: ${{ inputs.Major == true }}
+        uses: Zheng-Bote/gh_workflows/.github/actions/next_semver_major@main
+        with:
+          Major: true
+          Minor: false
+          Patch: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run my Minor Action
+        id: run-action-minor
+        if: ${{ inputs.Minor == true }}
+        uses: Zheng-Bote/gh_workflows/.github/actions/next_semver_minor@main
+        with:
+          Major: false
+          Minor: true
+          Patch: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run my Patch Action
+        id: run-action-patch
+        if: ${{ inputs.Patch == true }}
+        uses: Zheng-Bote/gh_workflows/.github/actions/next_semver_patch@main
+        with:
+          Major: false
+          Minor: false
+          Patch: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Output
+        id: output-major
+        if: ${{ inputs.Major == true }}
+        run: |
+          echo "***Next Major Version***" >> $GITHUB_STEP_SUMMARY
+          echo "- previous tag: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "- new tag: ${{ env.VSEMVER }} | ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "RELEASE_TAG=${{ steps.run-action-major.outputs.semver }}" >> $GITHUB_ENV
+        env:
+          PREVTAG: "${{ steps.run-action-major.outputs.prevtag }}"
+          VSEMVER: "${{ steps.run-action-major.outputs.vsemver }}"
+          SEMVER: "${{ steps.run-action-major.outputs.semver }}"
+
+      - name: Print Output
+        id: output-minor
+        if: ${{ inputs.Minor == true }}
+        run: |
+          echo "***Next Minor Version***" >> $GITHUB_STEP_SUMMARY
+          echo "- previous tag: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "- new tag: ${{ env.VSEMVER }} | ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "RELEASE_TAG=${{ steps.run-action-minor.outputs.semver }}" >> $GITHUB_ENV
+        env:
+          PREVTAG: "${{ steps.run-action-minor.outputs.prevtag }}"
+          VSEMVER: "${{ steps.run-action-minor.outputs.vsemver }}"
+          SEMVER: "${{ steps.run-action-minor.outputs.semver }}"
+
+      - name: Print Output
+        id: output-patch
+        if: ${{ inputs.Patch == true }}
+        run: |
+          echo "***Next Patch Version***" >> $GITHUB_STEP_SUMMARY
+          echo "- previous tag: ${{ env.PREVTAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "- new tag: ${{ env.VSEMVER }} | ${{ env.SEMVER }}" >> $GITHUB_STEP_SUMMARY
+          echo "RELEASE_TAG=${{ steps.run-action-patch.outputs.semver }}" >> $GITHUB_ENV
+        env:
+          PREVTAG: "${{ steps.run-action-patch.outputs.prevtag }}"
+          VSEMVER: "${{ steps.run-action-patch.outputs.vsemver }}"
+          SEMVER: "${{ steps.run-action-patch.outputs.semver }}"
+
+      - name: add Summary item
+        run: |
+          echo "- Version to use: ${{ env.RELEASE_TAG }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: add Summary item
+        run: |
+          echo "***AWS- and Github- Container Repositories***" >> $GITHUB_STEP_SUMMARY
+      
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: add Summary item
+        run: |
+          echo "- login to AWS EC Registry and GH Container Registry" >> $GITHUB_STEP_SUMMARY
+
+      - name: login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        
+      - name: login to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: containers.atc-github.azure.cloud.bmw
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: set up image name
+        id: setup
+        run: echo "::set-output name=IMAGE_NAME::${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_NAME }}"
+
+      - name: set up qemu
+        uses: docker/setup-qemu-action@v1
+      - name: set up Docker context for buildx
+        id: buildx-context
+        run: |
+          docker context create builders
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1.6.0
+        id: buildx
+        with:
+          version: latest
+          endpoint: builders
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build AWS image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          file: ${{ env.PATH_DOCKERFILE }}
+          context: .
+          push: false
+          load: true
+          tags: ${{ steps.setup.outputs.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+      - name: add Summary item
+        run: |
+          echo "- deliver Docker image to AWS EC Repository" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ steps.setup.outputs.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+
+      - name: Re-Tag Docker image
+        run: |
+          docker tag ${{ steps.setup.outputs.IMAGE_NAME }}:${{ env.RELEASE_TAG }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+
+      - name: add Summary item
+        run: |
+          echo "- deliver Docker image to GH Repository" >> $GITHUB_STEP_SUMMARY
+
+      - name: Push Docker image to Package
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+
+      - name: add Summary item
+        run: |
+          echo "***Artifacts and Attestations***" >> $GITHUB_STEP_SUMMARY
+
+      - name: add Summary item
+        run: |
+          echo "- Generate SBOM JSON of Docker image" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Generate SBOM JSON of Docker image
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+          format: "cyclonedx-json"
+          output-file: "sbom.cyclonedx.json"
+          upload-artifact: false # 2024-08-26 Error: @actions/artifact v2.0.0+, upload-artifact@v4+ and download-artifact@v4+ are not currently supported on GHES.
+
+      #- name: add Summary item
+      #  run: |
+      #    echo "- Docker image SBOM attestation" >> $GITHUB_STEP_SUMMARY
+
+      #- name: Generate Docker image SBOM attestation
+      #  uses: actions/attest-sbom@v1
+      #  id: attest
+      #  with:
+      #    subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+      #    subject-digest: ${{ steps.push.outputs.digest }}
+      #    sbom-path: "sbom.cyclonedx.json"
+      #    push-to-registry: true
+
+      - name: add Summary item
+        run: |
+          echo "- Generate SBOM SPDX of Docker image" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Generate SBOM SPDX of Docker image
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
+          format: "spdx"
+          output-file: "sbom.spdx"
+          upload-artifact: false # 2024-08-26 Error: @actions/artifact v2.0.0+, upload-artifact@v4+ and download-artifact@v4+ are not currently supported on GHES.
+
+      - name: publish SPDX
+        uses: anchore/sbom-action/publish-sbom@v0
+        with:
+          sbom-artifact-match: ".*\\.spdx$"
+
+      - name: add Summary item
+        run: |
+          echo "- Generate release + changelog" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Generate release + changelog
+        id: relnotes
+        uses: Zheng-Bote/github-action-generate-relnotes@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          newTag: "v${{ env.RELEASE_TAG }}"
+          generateArtifact: true
+
+      #- name: add Summary item
+      #  run: |
+      #    echo "- Changelog for Release and Package" >> $GITHUB_STEP_SUMMARY
+
+      #- uses: actions/upload-artifact@v4
+      #  with:
+      #    name: changelog
+      #    path: changelog.txt
+
+      - name: add Summary item
+        run: |
+          echo "- Add Changelog and SBOM to Release" >> $GITHUB_STEP_SUMMARY
+
+      - name: add Files to Release
+        id: add-files-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ env.RELEASE_TAG }}"
+          files: |
+            changelog.txt
+            sbom.cyclonedx.json
+            sbom.spdx
+
+      - name: add Summary item
+        run: |
+          echo "***GH Pages***" >> $GITHUB_STEP_SUMMARY
+
+      - name: create local Dir
+        id: create_local_dir
+        shell: bash
+        run: |
+          mkdir -p "../gh-pages/v${{ env.RELEASE_TAG }}"
+          echo "GH_PAGES=../gh-pages/v${{ env.RELEASE_TAG }}" >> $GITHUB_ENV
+
+      - name: prepare files
+        id: prepare-files
+        shell: bash
+        run: |
+          echo "# Changelog" > ${{ env.GH_PAGES }}/Changelog.md
+          cat ./changelog.txt >> ${{ env.GH_PAGES }}/Changelog.md
+          echo "# SPDX" > ${{ env.GH_PAGES }}/SBOM_spdx.md
+          echo '```' >> ${{ env.GH_PAGES }}/SBOM_spdx.md
+          cat ./sbom.spdx >> ${{ env.GH_PAGES }}/SBOM_spdx.md
+          echo '```' >> ${{ env.GH_PAGES }}/SBOM_spdx.md
+
+      - name: Checkout GH-Pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: add Summary item
+        run: |
+          echo "- Add Changelog and SBOM SPDX to GH-Pages" >> $GITHUB_STEP_SUMMARY
+
+      - name: "add and push to gh-pages"
+        id: add_pages
+        shell: bash
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          cp -R ../gh-pages/* ./docs/Governance/Assetmanagement/${{ env.COMPONENT }}/.
+          git add ./docs/Governance/Assetmanagement/${{ env.COMPONENT }}/v${{ env.RELEASE_TAG }}/*.md
+          git commit -m "upload Changelog and SBOM SPDX"
+          git push
+
+      - name: add Summary item
+        run: |
+          echo "### Assets Added" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ steps.add-files-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ env.GH_Website }}/Governance/Assetmanagement/${{ env.COMPONENT }}/v${{ env.RELEASE_TAG }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: remove docker context
+        if: ${{ always() }}
+        run: docker context rm builders --force
