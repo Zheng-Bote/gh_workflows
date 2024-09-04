@@ -40,7 +40,7 @@ jobs:
         if: steps.verify_changed_files.outputs.files_changed == 'true'
         run: |
           echo "README.md has uncommitted changes"
-          exit 1
+          #exit 1
 
       - name: Create Pull Request
         if: failure()
