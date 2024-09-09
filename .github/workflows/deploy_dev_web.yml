@@ -4,7 +4,7 @@ name: deploy dev web
 # description: create docker image and deploy to AWS EC repo; create Package and Release with Changelog and SBOM
 
 # todo
-# split the big fat lady to re-usable components and building blocks 
+# split the big fat lady to re-usable components and building blocks
 
 on:
   workflow_dispatch:
@@ -48,10 +48,10 @@ env:
   IMAGE_NAME: 2x84-scp-gamma-devweb-ecr
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_WEB_ACCESS_ID_DEV }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_WEB_ACCESS_SECRET_DEV }}
-  REGISTRY: containers.atc-github.azure.cloud.bmw/algoapps/gamma-cloud-dev
+  REGISTRY: containers.atc-github.azure.cloud.cnx/algoapps/gamma-cloud-dev
   AWS_REGION: eu-central-1
   RELEASE_TAG: latest # will be changed later on
-  GH_Website: https://pages.atc-github.azure.cloud.bmw/AlgoApps/GAMMA-Cloud-Dev
+  GH_Website: https://pages.atc-github.azure.cloud.cnx/AlgoApps/GAMMA-Cloud-Dev
 
 permissions:
   actions: read
@@ -59,7 +59,7 @@ permissions:
   packages: write
   #attestations: not yet support by GHES :-/
   id-token: write
-      
+
 jobs:
   delivery-job:
     runs-on: ubuntu-latest
@@ -148,7 +148,7 @@ jobs:
       - name: add Summary item
         run: |
           echo "***AWS- and Github- Container Repositories***" >> $GITHUB_STEP_SUMMARY
-      
+
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -163,11 +163,11 @@ jobs:
       - name: login to ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        
+
       - name: login to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: containers.atc-github.azure.cloud.bmw
+          registry: containers.atc-github.azure.cloud.cnx
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -205,11 +205,10 @@ jobs:
           tags: ${{ steps.setup.outputs.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
-
       - name: add Summary item
         run: |
           echo "- deliver Docker image to AWS EC Repository" >> $GITHUB_STEP_SUMMARY
-          
+
       - name: Push Docker image to ECR
         run: |
           docker push ${{ steps.setup.outputs.IMAGE_NAME }}:${{ env.RELEASE_TAG }}
@@ -233,7 +232,7 @@ jobs:
       - name: add Summary item
         run: |
           echo "- Generate SBOM JSON of Docker image" >> $GITHUB_STEP_SUMMARY
-          
+
       - name: Generate SBOM JSON of Docker image
         uses: anchore/sbom-action@v0
         with:
@@ -258,7 +257,7 @@ jobs:
       - name: add Summary item
         run: |
           echo "- Generate SBOM SPDX of Docker image" >> $GITHUB_STEP_SUMMARY
-          
+
       - name: Generate SBOM SPDX of Docker image
         uses: anchore/sbom-action@v0
         with:
@@ -275,7 +274,7 @@ jobs:
       - name: add Summary item
         run: |
           echo "- Generate release + changelog" >> $GITHUB_STEP_SUMMARY
-          
+
       - name: Generate release + changelog
         id: relnotes
         uses: Zheng-Bote/github-action-generate-relnotes@main
