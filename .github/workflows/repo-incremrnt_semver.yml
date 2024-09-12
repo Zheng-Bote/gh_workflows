@@ -1,0 +1,27 @@
+# https://github.com/christian-draeger/increment-semantic-version
+name: Repo increment semver
+
+on:
+  workflow_dispatch:
+
+jobs:
+  github-actions-environment-variables-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bump release version
+        id: bump_version1
+        uses: christian-draeger/increment-semantic-version@1.1.0
+        with:
+          current-version: "1.0.0"
+          version-fragment: "feature"
+      - name: Do something with your bumped release version
+        run: echo ${{ steps.bump_version1.outputs.next-version }}
+
+      - name: Bump release version
+        id: bump_version2
+        uses: christian-draeger/increment-semantic-version@1.1.0
+        with:
+          current-version: "v1.0.1"
+          version-fragment: "feature"
+      - name: Do something with your bumped release version
+        run: echo ${{ steps.bump_version2.outputs.next-version }}
